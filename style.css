@@ -18,3 +18,5 @@ form ul li, h1,.alert{
   margin: 20px auto !important;
   text-align:center;
 }
+.table td { text-align: right; }
+.table th { text-align: center; }

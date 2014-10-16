@@ -71,6 +71,9 @@ $(function() {
 			updater: function (item) {
 				document.location.href='./?q='+item;
 				return item;
+			},
+			highlighter: function(item) {
+				return item;
 			}
 		});	
 });

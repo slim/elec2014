@@ -31,28 +31,39 @@ if (!empty($_GET['q'])) {
 <input type='text' id='q' name='q' placeholder='مثلا: بحري جلاصي، الجبهة، الكاف' dir='rtl' autocomplete='off' />
 </div>
 </form>
-<div class="row offset2 span8">
+<div class="row offset4 span4">
 <?php if (!empty($_GET['q'])) if (!$resultat) {
 		print "<div class='alert alert-error'>Aucun résultat</div>"; 
-} else { ?>
-<table class="table table-bordered">
-<thead><tr><th>دائرة</th><th>قائمة</th><th>مرشح</th></tr></thead>
-<tbody>
-<?php 
+} else { 
+		$candidat = next($resultat);
+		$circo = $candidat['Circonscription'];
+		$liste = $candidat['NomListe'];
+		$nom = $candidat['NomCandidat'];
+		print "<table class='table table-bordered'><thead><tr><th>$liste <span class='label label-info'>$circo</span></th></tr></thead><tbody>";
+		print "<tr><td>$nom</td></tr>";
+		$nouvelle_liste = FALSE;
 		foreach ($resultat as $candidat) {
-			$circo = $candidat['Circonscription'];
-			$liste = $candidat['NomListe'];
+			if ($circo != $candidat['Circonscription']) {
+				$circo = $candidat['Circonscription'];
+				$nouvelle_liste = TRUE;
+			}
+			if ($liste != $candidat['NomListe']) {
+				$liste = $candidat['NomListe'];
+				$nouvelle_liste = TRUE;
+			}
+			if ($nouvelle_liste) {
+				print "</tbody></table><table class='table table-bordered'><thead><tr><th>$liste <span class='label label-info'>$circo</span></th></tr></thead><tbody>";
+				$nouvelle_liste = FALSE;
+			}
 			$nom = $candidat['NomCandidat'];
-			print "<tr><td>$circo</td><td>$liste</td><td>$nom</td></tr>";
+			print "<tr><td>$nom</td></tr>";
 		}
+		print "</tbody></table>";
 
-?>
-</tbody>
-</table>
-<?php } ?>
+} ?>
 </div>
-<small class="muted pull-right" style="right:5px; bottom:5px;">Contact <a href="https://twitter.com/slim404">@slim404</a></small>
 </div>
+<small class="row muted pull-right">Contact <a href="https://twitter.com/slim404">@slim404</a> & <a href="https://twitter.com/astrubaal">@Astrubaal</a> source <a href="https://github.com/slim/elec2014">https://github.com/slim/elec2014</a></small>
 <script>
 $(function() {
 		$('#q').typeahead({

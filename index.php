@@ -29,6 +29,7 @@ if (!empty($_GET['q'])) {
 <div class='input-prepend' dir='ltr'>
 <button type='submit' class='btn btn-info'>ابحث</button>
 <input type='text' id='q' name='q' placeholder='مثلا: بحري جلاصي، الجبهة، الكاف' dir='rtl' autocomplete='off' />
+<br /><small class="row muted pull-right" onclick="">ما عنديش لوحة مفاتيح بالعربي </small>
 </div>
 </form>
 <div class="row offset4 span4">
@@ -66,6 +67,7 @@ if (!empty($_GET['q'])) {
 <small class="row muted pull-right">Contact <a href="https://twitter.com/slim404">@slim404</a> & <a href="https://twitter.com/astrubaal">@Astrubaal</a> source <a href="https://github.com/slim/elec2014">https://github.com/slim/elec2014</a></small>
 <script>
 $(function() {
+		$('#q').focus();
 		$('#q').typeahead({
 			source:function (query, process) {
 				articles = [];
@@ -89,5 +91,14 @@ $(function() {
 		});	
 });
 </script>
+<!-- YAMLI CODE START -->
+<script type="text/javascript" src="http://api.yamli.com/js/yamli_api.js"></script>
+<script type="text/javascript">
+  if (typeof(Yamli) == "object" && Yamli.init( { uiLanguage: "fr" , startMode: "offOrUserDefault" } ))
+  {
+    Yamli.yamlify( "q", { settingsPlacement: "bottomRight" } );
+  }
+</script>
+<!-- YAMLI CODE END -->
 </body>
 </html>

@@ -2,7 +2,7 @@
 require_once "ini.php";
 if (!empty($_GET['q'])) {
 	try {
-		$q = $db->prepare('SELECT * from MainTable where NomCandidat like ? or NomListe like ? or Circonscription like ?');
+		$q = $db->prepare('SELECT NomListe, Circonscription from MainTable where NomCandidat like ? or NomListe like ? or Circonscription like ? group by NomListe,Circonscription');
 		$q->bindValue(1, '%'.trim($_GET['q']).'%');
 		$q->bindValue(2, '%'.trim($_GET['q']).'%');
 		$q->bindValue(3, '%'.trim($_GET['q']).'%');
@@ -36,30 +36,10 @@ if (!empty($_GET['q'])) {
 <?php if (!empty($_GET['q'])) if (!$resultat) {
 		print "<div class='alert alert-error'>Aucun résultat</div>"; 
 } else { 
-		$candidat = next($resultat);
-		$circo = $candidat['Circonscription'];
-		$liste = $candidat['NomListe'];
-		$nom = $candidat['NomCandidat'];
-		print "<table class='table table-bordered'><thead><tr><th>$liste <span class='label label-info'>$circo</span></th></tr></thead><tbody>";
-		print "<tr><td>$nom</td></tr>";
-		$nouvelle_liste = FALSE;
-		foreach ($resultat as $candidat) {
-			if ($circo != $candidat['Circonscription']) {
-				$circo = $candidat['Circonscription'];
-				$nouvelle_liste = TRUE;
-			}
-			if ($liste != $candidat['NomListe']) {
-				$liste = $candidat['NomListe'];
-				$nouvelle_liste = TRUE;
-			}
-			if ($nouvelle_liste) {
-				print "</tbody></table><table class='table table-bordered'><thead><tr><th>$liste <span class='label label-info'>$circo</span></th></tr></thead><tbody>";
-				$nouvelle_liste = FALSE;
-			}
-			$nom = $candidat['NomCandidat'];
-			print "<tr><td>$nom</td></tr>";
+		print "<p class='muted'>".count($resultat). " قائمة </p>";
+		foreach ($resultat as $liste) {
+			print ListeElectorale::charger($liste['NomListe'], $liste['Circonscription']);
 		}
-		print "</tbody></table>";
 
 } ?>
 </div>

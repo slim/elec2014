@@ -67,6 +67,9 @@ $(function() {
 			},
 			highlighter: function(item) {
 				return item;
+			},
+			matcher: function(item) {
+				return item;
 			}
 		});	
 });

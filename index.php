@@ -1,6 +1,6 @@
 <?php
 require_once "ini.php";
-if (!empty($_GET['q'])) {
+if (!empty($_GET['q'])&&!preg_match('/%/',$_GET['q'])) {
 	try {
 		$q = $db->prepare('SELECT NomListe, Circonscription from MainTable where NomCandidat like ? or NomListe like ? or Circonscription like ? group by NomListe,Circonscription');
 		$q->bindValue(1, '%'.trim($_GET['q']).'%');
